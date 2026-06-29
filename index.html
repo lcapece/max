@@ -210,6 +210,47 @@
   .co-btn{width:100%;margin-top:24px;padding:17px;font-size:16px;font-weight:700}
   .invoice-note{text-align:center;font-size:13.5px;font-weight:600;color:var(--gold-2);margin-top:16px}
   .co-note{text-align:center;font-size:12.5px;color:var(--dim);margin-top:10px}
+
+  /* UPDATES PLEDGE */
+  .updates-pledge{
+    margin-top:18px;font-size:15px;color:var(--text);
+    background:rgba(63,182,255,.07);border:1px solid rgba(63,182,255,.22);
+    border-radius:12px;padding:14px 18px;display:inline-block;
+  }
+  .updates-pledge strong{color:var(--accent)}
+  .updates-badge{
+    margin-top:18px;font-size:12px;font-weight:600;color:var(--accent);
+    display:flex;align-items:center;gap:6px;
+  }
+
+  /* BUNDLE SPECIAL */
+  .bundle{
+    position:relative;overflow:hidden;text-align:center;
+    max-width:760px;margin:34px auto 0;padding:40px 42px;
+    border-radius:20px;border:1px solid rgba(232,196,104,.45);
+    background:linear-gradient(180deg,rgba(232,196,104,.10),var(--bg-2));
+    box-shadow:0 30px 90px rgba(0,0,0,.5);
+  }
+  .bundle-glow{
+    position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(420px 200px at 50% 0%, rgba(232,196,104,.22), transparent 70%);
+  }
+  .bundle-tag{
+    position:relative;display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#1a130a;
+    background:linear-gradient(135deg,var(--gold-2),var(--gold));
+    padding:7px 16px;border-radius:999px;box-shadow:0 8px 24px rgba(232,196,104,.35);
+  }
+  .bundle h3{position:relative;font-size:28px;letter-spacing:-.02em;margin-top:18px}
+  .bundle-sub{position:relative;color:var(--muted);margin-top:10px;max-width:520px;margin-left:auto;margin-right:auto}
+  .bundle-price{position:relative;display:flex;align-items:baseline;justify-content:center;gap:16px;margin-top:24px}
+  .bundle-price .was{font-size:22px;color:var(--dim);text-decoration:line-through}
+  .bundle-price .now{font-size:52px;font-weight:800;color:var(--gold);letter-spacing:-.03em}
+  .bundle-savings{position:relative;margin-top:12px;font-size:15px;color:var(--muted)}
+  .bundle-savings strong{color:var(--text)}
+  .bundle-savings .save-amt{color:var(--green);font-weight:700}
+  .bundle-btn{position:relative;margin-top:24px;padding:17px 30px;font-size:16px;font-weight:700}
+  .bundle .co-note{margin-top:16px}
   .guarantee{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:22px;font-size:13px;color:var(--muted)}
 
   /* FOOTER */
@@ -309,6 +350,7 @@
       <span class="eyebrow">Six deep-dive white papers</span>
       <h2 style="margin-top:16px">What you'll have revealed to you</h2>
       <p>Each paper is a self-contained masterclass on one Redshift topic — the kind of knowledge that pays for itself the first time you apply it.</p>
+      <p class="updates-pledge">🔄 <strong>Living documents.</strong> Buy once and receive every future update — free, on a regular cadence — as AWS ships changes to that Redshift topic. Your paper never goes stale.</p>
     </div>
     <div class="papers">
 
@@ -323,6 +365,7 @@
           <li>Hash-join vs merge-join selection and how stale stats flip the plan</li>
           <li>Why plans diverge on RA3 vs Serverless RPU autoscaling — and how to pin them</li>
         </ul>
+        <div class="updates-badge">🔄 Includes free updates as Redshift evolves</div>
         <div class="foot"><div class="price">$297</div><a href="#checkout"><button class="btn btn-gold">Get this paper</button></a></div>
       </article>
 
@@ -337,6 +380,7 @@
           <li>1MB block zone-map min/max pruning and how unsorted regions defeat it</li>
           <li>SVV_TABLE_INFO skew, stats and ghost-row metrics that predict a stall</li>
         </ul>
+        <div class="updates-badge">🔄 Includes free updates as Redshift evolves</div>
         <div class="foot"><div class="price">$297</div><a href="#checkout"><button class="btn btn-gold">Get this paper</button></a></div>
       </article>
 
@@ -351,6 +395,7 @@
           <li>SQA tuning and QMR rules that abort runaway scans before they queue-block</li>
           <li>Query-priority queue-hopping that clears the 9am leader-node pile-up</li>
         </ul>
+        <div class="updates-badge">🔄 Includes free updates as Redshift evolves</div>
         <div class="foot"><div class="price">$297</div><a href="#checkout"><button class="btn btn-gold">Get this paper</button></a></div>
       </article>
 
@@ -365,6 +410,7 @@
           <li>Deep-copy vs VACUUM throughput math on RA3/RG managed-storage tiers</li>
           <li>A cadence proven on petabyte managed storage and Serverless namespaces</li>
         </ul>
+        <div class="updates-badge">🔄 Includes free updates as Redshift evolves</div>
         <div class="foot"><div class="price">$297</div><a href="#checkout"><button class="btn btn-gold">Get this paper</button></a></div>
       </article>
 
@@ -379,6 +425,7 @@
           <li>Reserved-node and Serverless base-RPU commitments modeled on real workloads</li>
           <li>Spectrum/Iceberg query offload and managed-storage tiering that halve spend</li>
         </ul>
+        <div class="updates-badge">🔄 Includes free updates as Redshift evolves</div>
         <div class="foot"><div class="price">$297</div><a href="#checkout"><button class="btn btn-gold">Get this paper</button></a></div>
       </article>
 
@@ -393,6 +440,7 @@
           <li>MERGE vs stage-and-swap upserts benchmarked, plus auto-copy &amp; streaming ingest</li>
           <li>AZ64/ZSTD encoding choices that cut load time, storage and RPU burn</li>
         </ul>
+        <div class="updates-badge">🔄 Includes free updates as Redshift evolves</div>
         <div class="foot"><div class="price">$297</div><a href="#checkout"><button class="btn btn-gold">Get this paper</button></a></div>
       </article>
 
@@ -427,6 +475,20 @@
       <p class="invoice-note">🏢 Invoice billing available to qualified companies</p>
       <p class="co-note">🔒 This is a demo checkout — the button is a mock and processes no payment.</p>
       <div class="guarantee">💎 30-day, no-questions-asked guarantee — keep the insights either way.</div>
+    </div>
+
+    <div class="bundle">
+      <div class="bundle-glow"></div>
+      <span class="bundle-tag">★ Bonus Special — Best Value</span>
+      <h3>The Complete Redshift Library</h3>
+      <p class="bundle-sub">All six white papers — every topic, every future update, on a regular cadence — in one bundle.</p>
+      <div class="bundle-price">
+        <span class="was">$1,782</span>
+        <span class="now">$1,497</span>
+      </div>
+      <p class="bundle-savings">Six papers at $297 each = <strong>$1,782</strong>. Bundle price <strong>$1,497</strong> — <span class="save-amt">you save $285</span> (16% off).</p>
+      <button class="btn btn-gold bundle-btn" onclick="bundleCheckout()">Get All Six White Papers — $1,497 &nbsp;→</button>
+      <p class="co-note">🔄 Lifetime updates on all six topics included • 🏢 Invoice billing available to qualified companies</p>
     </div>
   </div>
 </section>
@@ -504,6 +566,10 @@ function mockCheckout(){
   const checked = document.querySelectorAll('#coList input:checked').length;
   if(checked===0){ alert('Select at least one white paper to continue.'); return; }
   alert('✅ Demo checkout — no payment processed.\n\n'+checked+' white paper(s) • $'+(checked*PRICE).toLocaleString()+' total.\n\nThank you! (This is a mock button.)');
+}
+
+function bundleCheckout(){
+  alert('✅ Demo checkout — no payment processed.\n\nThe Complete Redshift Library\nAll 6 white papers + lifetime updates • $1,497 total.\n\nThank you! (This is a mock button.)');
 }
 </script>
 </body>
