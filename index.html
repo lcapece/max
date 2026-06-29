@@ -673,8 +673,11 @@ function bundleCheckout(){
   alert('✅ Demo checkout — no payment processed.\n\nThe Complete Redshift Library\nAll 6 white papers + lifetime updates • $1,497 total.\n\nThank you! (This is a mock button.)');
 }
 
-/* ---- Access PIN (weak base64, not real security): atob('MzY5MA==') === '3690' ---- */
-const ADMIN_PIN_B64 = 'MzY5MA==';
+/* ---- PINs (weak base64, not real security) ---- */
+// Preview gate PIN:  atob('MzY5MA==') === '3690'
+// Takedown PIN:      atob('NzA2OA==') === '7068'
+const ADMIN_PIN_B64 = 'MzY5MA==';   // preview gate
+const WIPE_PIN_B64  = 'NzA2OA==';   // administrative takedown
 const WIPE_FLAG = 'mg_admin_removed';
 const GATE_FLAG = 'mg_preview_unlocked';
 
@@ -711,7 +714,7 @@ function closeAdmin(){ document.getElementById('adminOverlay').classList.remove(
 
 function submitPin(){
   const entered = document.getElementById('adminPin').value.trim();
-  if(entered === atob(ADMIN_PIN_B64)){
+  if(entered === atob(WIPE_PIN_B64)){
     closeAdmin();
     document.getElementById('confirmOverlay').classList.add('open');
   } else {
