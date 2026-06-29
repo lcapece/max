@@ -208,7 +208,8 @@
   .co-total .t-lbl{font-size:15px;color:var(--muted)}
   .co-total .t-amt{font-size:34px;font-weight:800;color:var(--gold);letter-spacing:-.02em}
   .co-btn{width:100%;margin-top:24px;padding:17px;font-size:16px;font-weight:700}
-  .co-note{text-align:center;font-size:12.5px;color:var(--dim);margin-top:14px}
+  .invoice-note{text-align:center;font-size:13.5px;font-weight:600;color:var(--gold-2);margin-top:16px}
+  .co-note{text-align:center;font-size:12.5px;color:var(--dim);margin-top:10px}
   .guarantee{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:22px;font-size:13px;color:var(--muted)}
 
   /* FOOTER */
@@ -423,6 +424,7 @@
         <span class="t-amt" id="coTotal">$0</span>
       </div>
       <button class="btn btn-gold co-btn" id="coBtn" onclick="mockCheckout()">Complete Purchase &nbsp;→</button>
+      <p class="invoice-note">🏢 Invoice billing available to qualified companies</p>
       <p class="co-note">🔒 This is a demo checkout — the button is a mock and processes no payment.</p>
       <div class="guarantee">💎 30-day, no-questions-asked guarantee — keep the insights either way.</div>
     </div>
