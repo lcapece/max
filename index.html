@@ -256,6 +256,38 @@
   /* FOOTER */
   footer{padding:50px 0;border-top:1px solid var(--line);text-align:center;color:var(--dim);font-size:13px}
   footer .brand{justify-content:center;margin-bottom:14px}
+  .admin-row{margin-top:18px}
+  .admin-link{font-size:12px;color:var(--dim);opacity:.6;text-decoration:underline;cursor:pointer}
+  .admin-link:hover{opacity:1;color:var(--muted)}
+
+  /* MODALS */
+  .btn-danger{
+    background:linear-gradient(135deg,#ff6b5e,#d83a2c);color:#fff;
+    padding:11px 20px;font-size:14px;box-shadow:0 8px 24px rgba(216,58,44,.3);
+  }
+  .btn-danger:hover{box-shadow:0 10px 30px rgba(216,58,44,.45)}
+  .modal-overlay{
+    display:none;position:fixed;inset:0;z-index:100;
+    background:rgba(4,7,12,.72);backdrop-filter:blur(6px);
+    align-items:center;justify-content:center;padding:24px;
+  }
+  .modal-overlay.open{display:flex}
+  .modal{
+    width:100%;max-width:400px;text-align:center;
+    background:linear-gradient(180deg,var(--panel),var(--bg-2));
+    border:1px solid var(--line);border-radius:18px;padding:30px;
+    box-shadow:0 40px 100px rgba(0,0,0,.6);
+  }
+  .modal h4{font-size:21px;letter-spacing:-.01em}
+  .modal-desc{color:var(--muted);font-size:14.5px;margin-top:10px}
+  .modal-input{
+    width:100%;margin-top:18px;padding:14px 16px;border-radius:11px;
+    background:var(--bg-2);border:1px solid var(--line);color:var(--text);
+    font-family:var(--font);font-size:18px;text-align:center;letter-spacing:.3em;
+  }
+  .modal-input:focus{outline:none;border-color:var(--gold)}
+  .modal-err{color:#ff7a6e;font-size:13px;min-height:18px;margin-top:8px}
+  .modal-actions{display:flex;gap:12px;justify-content:center;margin-top:18px}
 
   @media(max-width:980px){
     .hero-grid{grid-template-columns:1fr;gap:40px}
@@ -497,8 +529,36 @@
   <div class="wrap">
     <div class="brand"><div class="mark">MG</div>Max Ganz&nbsp;II</div>
     Deep Redshift expertise, distilled. &copy; 2026 Max Ganz II. All testimonials shown are illustrative samples.
+    <div class="admin-row"><a href="#" class="admin-link" onclick="openAdmin(event)">Administrative</a></div>
   </div>
 </footer>
+
+<!-- ADMIN PIN MODAL -->
+<div class="modal-overlay" id="adminOverlay" onclick="if(event.target===this)closeAdmin()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+    <h4 id="adminTitle">🔐 Administrative Access</h4>
+    <p class="modal-desc">Enter the administrator PIN to continue.</p>
+    <input type="password" id="adminPin" class="modal-input" inputmode="numeric" maxlength="8" placeholder="Enter PIN" autocomplete="off"
+           onkeydown="if(event.key==='Enter')submitPin()" />
+    <p class="modal-err" id="adminErr"></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeAdmin()">Cancel</button>
+      <button class="btn btn-gold" onclick="submitPin()">Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM REMOVAL MODAL -->
+<div class="modal-overlay" id="confirmOverlay" onclick="if(event.target===this)closeConfirm()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <h4 id="confirmTitle">⚠️ Confirm Removal</h4>
+    <p class="modal-desc">Are you sure you want to permanently remove this page?</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeConfirm()">No</button>
+      <button class="btn btn-danger" onclick="removePage()">Yes, remove it</button>
+    </div>
+  </div>
+</div>
 
 <script>
 const papers = [
@@ -571,6 +631,53 @@ function mockCheckout(){
 function bundleCheckout(){
   alert('✅ Demo checkout — no payment processed.\n\nThe Complete Redshift Library\nAll 6 white papers + lifetime updates • $1,497 total.\n\nThank you! (This is a mock button.)');
 }
+
+/* ---- Administrative ---- */
+// PIN stored weakly base64-encoded (not real security): atob('MzY5MA==') === '3690'
+const ADMIN_PIN_B64 = 'MzY5MA==';
+const WIPE_FLAG = 'mg_admin_removed';
+
+function openAdmin(e){
+  if(e) e.preventDefault();
+  document.getElementById('adminErr').textContent = '';
+  document.getElementById('adminPin').value = '';
+  document.getElementById('adminOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('adminPin').focus(), 50);
+}
+function closeAdmin(){ document.getElementById('adminOverlay').classList.remove('open'); }
+
+function submitPin(){
+  const entered = document.getElementById('adminPin').value.trim();
+  if(entered === atob(ADMIN_PIN_B64)){
+    closeAdmin();
+    document.getElementById('confirmOverlay').classList.add('open');
+  } else {
+    document.getElementById('adminErr').textContent = 'Incorrect PIN.';
+    document.getElementById('adminPin').value = '';
+    document.getElementById('adminPin').focus();
+  }
+}
+function closeConfirm(){ document.getElementById('confirmOverlay').classList.remove('open'); }
+
+function removePage(){
+  try{ localStorage.setItem(WIPE_FLAG, '1'); }catch(_){}
+  wipePage();
+}
+
+function wipePage(){
+  document.title = 'Page Removed';
+  document.documentElement.innerHTML =
+    '<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+    '<title>Page Removed</title></head>' +
+    '<body style="margin:0;min-height:100vh;display:grid;place-items:center;font-family:-apple-system,Segoe UI,Roboto,sans-serif;' +
+    'background:#0a0e14;color:#9fb0c3;text-align:center;padding:24px;">' +
+    '<div><div style="font-size:46px;margin-bottom:14px;">🗑️</div>' +
+    '<h1 style="color:#e7edf5;font-weight:800;letter-spacing:-.02em;">This page has been removed</h1>' +
+    '<p style="margin-top:8px;">This site is no longer available.</p></div></body>';
+}
+
+// Stay removed on reload in this browser
+try{ if(localStorage.getItem(WIPE_FLAG) === '1') wipePage(); }catch(_){}
 </script>
 </body>
 </html>
