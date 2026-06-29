@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Max Ganz II — Redshift Mastery White Papers</title>
+<meta name="description" content="Deep, hard-won Amazon Redshift insights from Max Ganz II — top-5 Redshift expert in the world outside AWS. Six white papers revealing what nobody else will tell you." />
+<style>
+  :root{
+    --bg:#0a0e14;
+    --bg-2:#0e141d;
+    --panel:#121a26;
+    --panel-2:#16202e;
+    --line:#1f2c3d;
+    --text:#e7edf5;
+    --muted:#9fb0c3;
+    --dim:#6c7f95;
+    --gold:#e8c468;
+    --gold-2:#f5dd9a;
+    --accent:#3fb6ff;
+    --accent-2:#7c5cff;
+    --green:#2fd4a0;
+    --radius:16px;
+    --maxw:1180px;
+    --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:radial-gradient(1200px 700px at 70% -10%, #15233a 0%, transparent 55%),
+               radial-gradient(900px 600px at 0% 10%, #1a1230 0%, transparent 50%),
+               var(--bg);
+    color:var(--text);
+    font-family:var(--font);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--gold-2);font-weight:600;
+    padding:7px 14px;border:1px solid var(--line);border-radius:999px;
+    background:rgba(232,196,104,.06);
+  }
+  .gold{color:var(--gold)}
+  .accent{color:var(--accent)}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(14px);
+    background:rgba(10,14,20,.72);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:-.01em}
+  .brand .mark{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(135deg,var(--gold),#b8893a);
+    display:grid;place-items:center;color:#1a130a;font-weight:800;font-size:15px;
+    box-shadow:0 4px 18px rgba(232,196,104,.3);
+  }
+  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--muted)}
+  .nav-links a:hover{color:var(--text)}
+  .btn{
+    cursor:pointer;border:none;font-family:var(--font);font-weight:600;
+    border-radius:11px;transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .btn:active{transform:translateY(1px)}
+  .btn-gold{
+    background:linear-gradient(135deg,var(--gold-2),var(--gold));
+    color:#1a130a;padding:11px 20px;font-size:14px;
+    box-shadow:0 8px 24px rgba(232,196,104,.25);
+  }
+  .btn-gold:hover{box-shadow:0 10px 30px rgba(232,196,104,.4)}
+  .btn-ghost{
+    background:rgba(255,255,255,.04);color:var(--text);
+    border:1px solid var(--line);padding:11px 20px;font-size:14px;
+  }
+  .btn-ghost:hover{background:rgba(255,255,255,.08)}
+
+  /* HERO */
+  header.hero{padding:90px 0 70px;position:relative}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:54px;align-items:center}
+  h1{
+    font-size:clamp(38px,5vw,62px);line-height:1.04;letter-spacing:-.025em;
+    font-weight:800;margin:22px 0 0;
+  }
+  h1 .shine{
+    background:linear-gradient(110deg,var(--gold-2),var(--gold) 40%,#caa24f 70%,var(--gold-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.lead{font-size:19px;color:var(--muted);margin-top:22px;max-width:560px}
+  .hero-cta{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
+  .trust-row{display:flex;gap:30px;margin-top:40px;flex-wrap:wrap}
+  .trust-row .stat{display:flex;flex-direction:column}
+  .trust-row .num{font-size:30px;font-weight:800;letter-spacing:-.02em;color:var(--text)}
+  .trust-row .lbl{font-size:13px;color:var(--dim);margin-top:2px}
+
+  /* HERO CARD */
+  .expert-card{
+    background:linear-gradient(180deg,var(--panel),var(--bg-2));
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:30px;position:relative;overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.5);
+  }
+  .expert-card::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(400px 200px at 80% 0%, rgba(232,196,104,.14), transparent 70%);
+    pointer-events:none;
+  }
+  .avatar{
+    width:84px;height:84px;border-radius:18px;
+    background:linear-gradient(135deg,#2a3850,#16202e);
+    border:1px solid var(--line);
+    display:grid;place-items:center;font-size:34px;font-weight:800;color:var(--gold);
+  }
+  .expert-card h3{font-size:22px;margin-top:18px;letter-spacing:-.01em}
+  .expert-card .role{color:var(--accent);font-size:14px;font-weight:600;margin-top:3px}
+  .expert-card ul{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:12px}
+  .expert-card li{display:flex;gap:11px;font-size:14.5px;color:var(--muted)}
+  .expert-card li .ck{color:var(--green);flex-shrink:0;font-weight:800}
+  .rank-badge{
+    margin-top:22px;padding:14px 16px;border-radius:12px;
+    background:rgba(232,196,104,.08);border:1px solid rgba(232,196,104,.25);
+    font-size:13.5px;color:var(--gold-2);font-weight:600;
+  }
+
+  /* SECTION SHELL */
+  section{padding:80px 0;border-top:1px solid var(--line)}
+  .sec-head{text-align:center;max-width:680px;margin:0 auto 50px}
+  .sec-head h2{font-size:clamp(28px,3.4vw,42px);letter-spacing:-.02em;font-weight:800}
+  .sec-head p{color:var(--muted);margin-top:14px;font-size:17px}
+
+  /* AUTHORITY STRIP */
+  .auth-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .auth-card{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;
+  }
+  .auth-card .big{font-size:34px;font-weight:800;color:var(--gold);letter-spacing:-.02em}
+  .auth-card .cap{font-size:14px;color:var(--muted);margin-top:6px}
+
+  /* WHITE PAPERS */
+  .papers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .paper{
+    background:linear-gradient(180deg,var(--panel),var(--bg-2));
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px;display:flex;flex-direction:column;
+    transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .paper:hover{transform:translateY(-4px);border-color:rgba(232,196,104,.35);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+  .paper .tag{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .paper h3{font-size:20px;margin-top:12px;letter-spacing:-.01em;line-height:1.25}
+  .paper .desc{color:var(--muted);font-size:14.5px;margin-top:12px;flex-grow:0}
+  .paper .reveal-title{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-top:20px;font-weight:700}
+  .paper ul{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:8px;flex-grow:1}
+  .paper li{font-size:13.5px;color:var(--muted);display:flex;gap:9px}
+  .paper li::before{content:"▸";color:var(--gold);font-size:12px;line-height:1.5}
+  .paper .foot{display:flex;align-items:center;justify-content:space-between;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+  .paper .price{font-size:26px;font-weight:800;letter-spacing:-.02em}
+  .paper .price span{font-size:13px;color:var(--dim);font-weight:500}
+
+  /* TESTIMONIALS */
+  .tgrid{columns:3;column-gap:20px}
+  .tcard{
+    break-inside:avoid;margin-bottom:20px;
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;
+  }
+  .tcard .stars{color:var(--gold);font-size:13px;letter-spacing:2px}
+  .tcard .quote{font-size:14.5px;color:var(--text);margin-top:11px;line-height:1.55}
+  .tcard .saved{
+    display:inline-block;margin-top:14px;font-size:12.5px;font-weight:700;color:var(--green);
+    background:rgba(47,212,160,.1);border:1px solid rgba(47,212,160,.25);
+    padding:4px 10px;border-radius:999px;
+  }
+  .tcard .who{display:flex;align-items:center;gap:11px;margin-top:16px}
+  .tcard .who .ava{
+    width:38px;height:38px;border-radius:10px;flex-shrink:0;
+    background:linear-gradient(135deg,#243248,#16202e);border:1px solid var(--line);
+    display:grid;place-items:center;font-weight:700;color:var(--accent);font-size:14px;
+  }
+  .tcard .who .nm{font-size:14px;font-weight:700}
+  .tcard .who .tt{font-size:12px;color:var(--dim)}
+
+  /* CHECKOUT */
+  .checkout{
+    background:linear-gradient(180deg,var(--panel-2),var(--bg-2));
+    border:1px solid var(--line);border-radius:20px;padding:42px;max-width:760px;margin:0 auto;
+    box-shadow:0 30px 90px rgba(0,0,0,.5);
+  }
+  .checkout h2{font-size:30px;letter-spacing:-.02em;text-align:center}
+  .checkout .sub{text-align:center;color:var(--muted);margin-top:10px}
+  .co-list{margin-top:30px;display:flex;flex-direction:column;gap:12px}
+  .co-item{
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+    cursor:pointer;transition:border-color .15s ease;
+  }
+  .co-item:hover{border-color:rgba(63,182,255,.4)}
+  .co-item .l{display:flex;align-items:center;gap:13px}
+  .co-item input{width:18px;height:18px;accent-color:var(--gold);cursor:pointer}
+  .co-item .nm{font-size:14.5px;font-weight:600}
+  .co-item .pr{font-size:15px;font-weight:700;color:var(--gold)}
+  .co-total{display:flex;align-items:center;justify-content:space-between;margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
+  .co-total .t-lbl{font-size:15px;color:var(--muted)}
+  .co-total .t-amt{font-size:34px;font-weight:800;color:var(--gold);letter-spacing:-.02em}
+  .co-btn{width:100%;margin-top:24px;padding:17px;font-size:16px;font-weight:700}
+  .co-note{text-align:center;font-size:12.5px;color:var(--dim);margin-top:14px}
+  .guarantee{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:22px;font-size:13px;color:var(--muted)}
+
+  /* FOOTER */
+  footer{padding:50px 0;border-top:1px solid var(--line);text-align:center;color:var(--dim);font-size:13px}
+  footer .brand{justify-content:center;margin-bottom:14px}
+
+  @media(max-width:980px){
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .auth-strip{grid-template-columns:repeat(2,1fr)}
+    .papers{grid-template-columns:1fr 1fr}
+    .tgrid{columns:2}
+    .nav-links{display:none}
+  }
+  @media(max-width:640px){
+    .auth-strip,.papers{grid-template-columns:1fr}
+    .tgrid{columns:1}
+    .checkout{padding:26px}
+    header.hero{padding:60px 0 40px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><div class="mark">MG</div>Max Ganz&nbsp;II</div>
+    <div class="nav-links">
+      <a href="#authority">Authority</a>
+      <a href="#papers">White Papers</a>
+      <a href="#testimonials">Results</a>
+      <a href="#checkout">Get Access</a>
+    </div>
+    <a href="#checkout"><button class="btn btn-gold">Buy White Papers</button></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">★ Amazon Redshift • Since 2012 • 10,000+ hours</span>
+      <h1>Redshift insights <span class="shine">worth their weight in gold.</span></h1>
+      <p class="lead">
+        Six deep-dive white papers from <strong>Max Ganz&nbsp;II</strong> — one of the
+        five most authoritative Amazon Redshift experts in the world outside of AWS itself.
+        What you'll read here exists nowhere else: the undocumented internals, the failure modes,
+        and the optimization patterns that quietly save Fortune&nbsp;500 data teams six figures a year.
+      </p>
+      <div class="hero-cta">
+        <a href="#checkout"><button class="btn btn-gold">Unlock the White Papers — $297 each</button></a>
+        <a href="#papers"><button class="btn btn-ghost">See What's Revealed</button></a>
+      </div>
+      <div class="trust-row">
+        <div class="stat"><span class="num">14<span class="gold">+</span></span><span class="lbl">Years on Redshift exclusively</span></div>
+        <div class="stat"><span class="num">10,000<span class="gold">+</span></span><span class="lbl">Hours at the console</span></div>
+        <div class="stat"><span class="num">Top&nbsp;5</span><span class="lbl">Redshift experts outside AWS</span></div>
+      </div>
+    </div>
+
+    <aside class="expert-card">
+      <div class="avatar">MG</div>
+      <h3>Max Ganz&nbsp;II</h3>
+      <div class="role">Principal Redshift Specialist</div>
+      <ul>
+        <li><span class="ck">✓</span> Working on Amazon Redshift <strong>exclusively since 2012</strong></li>
+        <li><span class="ck">✓</span> <strong>10,000+ hours</strong> at the Redshift keyboard &amp; console</li>
+        <li><span class="ck">✓</span> Independently ranked among the <strong>top five Redshift experts worldwide</strong> outside of AWS</li>
+        <li><span class="ck">✓</span> Reverse-engineered internals that even AWS docs don't cover</li>
+        <li><span class="ck">✓</span> Trusted by Fortune&nbsp;500 data engineering teams</li>
+      </ul>
+      <div class="rank-badge">🏆 One of only a handful of people alive who can read the Redshift query planner like a native language.</div>
+    </aside>
+  </div>
+</header>
+
+<!-- AUTHORITY -->
+<section id="authority">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Why this is different</span>
+      <h2 style="margin-top:16px">Authority earned at the console — not in the marketing deck</h2>
+      <p>Most "Redshift consultants" learned it last quarter. Max has lived inside the engine for over a decade, documenting the behavior AWS never published.</p>
+    </div>
+    <div class="auth-strip">
+      <div class="auth-card"><div class="big">2012</div><div class="cap">The year Max went all-in on Redshift — and never looked at another database since.</div></div>
+      <div class="auth-card"><div class="big">10k+</div><div class="cap">Hours hand-tuning sort keys, dist styles, WLM queues and the leader node.</div></div>
+      <div class="auth-card"><div class="big">#1–5</div><div class="cap">Global ranking of Redshift authorities outside of Amazon Web Services itself.</div></div>
+      <div class="auth-card"><div class="big">100%</div><div class="cap">Original research — every white paper is field-tested, reproducible, and undocumented elsewhere.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHITE PAPERS -->
+<section id="papers">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Six deep-dive white papers</span>
+      <h2 style="margin-top:16px">What you'll have revealed to you</h2>
+      <p>Each paper is a self-contained masterclass on one Redshift topic — the kind of knowledge that pays for itself the first time you apply it.</p>
+    </div>
+    <div class="papers">
+
+      <article class="paper">
+        <span class="tag">Performance</span>
+        <h3>The Query Planner Decoded</h3>
+        <p class="desc">A line-by-line tour of how Redshift actually plans, redistributes and executes your queries.</p>
+        <div class="reveal-title">You'll have revealed:</div>
+        <ul>
+          <li>How to read EXPLAIN output the way the planner sees it</li>
+          <li>The hidden redistribution (DS_DIST) costs that silently dominate runtime</li>
+          <li>Why "the same query" varies 10× — and how to pin it down</li>
+          <li>The rewrite patterns that collapse broadcast joins</li>
+        </ul>
+        <div class="foot"><div class="price">$297</div><a href="#checkout"><button class="btn btn-gold">Get this paper</button></a></div>
+      </article>
+
+      <article class="paper">
+        <span class="tag">Data Modeling</span>
+        <h3>Sort Keys &amp; Dist Styles Mastery</h3>
+        <p class="desc">The definitive framework for choosing distribution and sort strategy from first principles.</p>
+        <div class="reveal-title">You'll have revealed:</div>
+        <ul>
+          <li>The decision tree AWS never published for KEY vs EVEN vs ALL</li>
+          <li>Compound vs interleaved sort keys — when each truly wins</li>
+          <li>How block-level zone maps make or break your scans</li>
+          <li>The skew metrics that predict a future outage</li>
+        </ul>
+        <div class="foot"><div class="price">$297</div><a href="#checkout"><button class="btn btn-gold">Get this paper</button></a></div>
+      </article>
+
+      <article class="paper">
+        <span class="tag">Concurrency</span>
+        <h3>WLM &amp; Queue Engineering</h3>
+        <p class="desc">Workload Management taken apart and rebuilt for predictable concurrency under load.</p>
+        <div class="reveal-title">You'll have revealed:</div>
+        <ul>
+          <li>Memory-slot math that stops queries spilling to disk</li>
+          <li>Automatic vs manual WLM — the real tradeoffs, measured</li>
+          <li>Short-query acceleration tuning that actually holds up</li>
+          <li>Queue-hopping rules that eliminate the 9am pile-up</li>
+        </ul>
+        <div class="foot"><div class="price">$297</div><a href="#checkout"><button class="btn btn-gold">Get this paper</button></a></div>
+      </article>
+
+      <article class="paper">
+        <span class="tag">Maintenance</span>
+        <h3>VACUUM, ANALYZE &amp; the Truth About Bloat</h3>
+        <p class="desc">Everything that happens to your blocks over time — and how to keep the cluster lean.</p>
+        <div class="reveal-title">You'll have revealed:</div>
+        <ul>
+          <li>What VACUUM really does block-by-block (and when to skip it)</li>
+          <li>The statistics staleness that quietly wrecks plans</li>
+          <li>Deep-copy vs vacuum — the throughput math</li>
+          <li>A maintenance cadence proven on multi-TB clusters</li>
+        </ul>
+        <div class="foot"><div class="price">$297</div><a href="#checkout"><button class="btn btn-gold">Get this paper</button></a></div>
+      </article>
+
+      <article class="paper">
+        <span class="tag">Cost</span>
+        <h3>Cutting the Redshift Bill in Half</h3>
+        <p class="desc">A systematic teardown of where Redshift spend hides — and how to reclaim it without losing performance.</p>
+        <div class="reveal-title">You'll have revealed:</div>
+        <ul>
+          <li>RA3 vs DC2 economics with the numbers that matter</li>
+          <li>Concurrency Scaling: when it pays and when it bleeds</li>
+          <li>Reserved-node strategy modeled against real workloads</li>
+          <li>Spectrum &amp; storage tiering that quietly halves cost</li>
+        </ul>
+        <div class="foot"><div class="price">$297</div><a href="#checkout"><button class="btn btn-gold">Get this paper</button></a></div>
+      </article>
+
+      <article class="paper">
+        <span class="tag">Loading</span>
+        <h3>High-Throughput Ingestion</h3>
+        <p class="desc">Getting data into Redshift at maximum speed without corrupting your sort order or your sanity.</p>
+        <div class="reveal-title">You'll have revealed:</div>
+        <ul>
+          <li>COPY internals — slices, files and the optimal file count</li>
+          <li>Staging patterns that keep tables sorted on load</li>
+          <li>Upsert/merge strategies benchmarked head-to-head</li>
+          <li>The compression encodings that cut load time and storage</li>
+        </ul>
+        <div class="foot"><div class="price">$297</div><a href="#checkout"><button class="btn btn-gold">Get this paper</button></a></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Results from the field</span>
+      <h2 style="margin-top:16px">Loved by data leaders at the Fortune 500</h2>
+      <p>Specific use cases. Specific savings. This is what happens when you put Max's white papers to work.</p>
+    </div>
+    <div class="tgrid" id="tgrid"><!-- testimonials injected --></div>
+  </div>
+</section>
+
+<!-- CHECKOUT -->
+<section id="checkout">
+  <div class="wrap">
+    <div class="checkout">
+      <h2>Get the white papers</h2>
+      <p class="sub">Select the papers you want. <strong class="gold">$297 each.</strong> Instant download after checkout.</p>
+      <div class="co-list" id="coList"><!-- checkout items injected --></div>
+      <div class="co-total">
+        <span class="t-lbl"><span id="coCount">0</span> paper(s) selected</span>
+        <span class="t-amt" id="coTotal">$0</span>
+      </div>
+      <button class="btn btn-gold co-btn" id="coBtn" onclick="mockCheckout()">Complete Purchase &nbsp;→</button>
+      <p class="co-note">🔒 This is a demo checkout — the button is a mock and processes no payment.</p>
+      <div class="guarantee">💎 30-day, no-questions-asked guarantee — keep the insights either way.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand"><div class="mark">MG</div>Max Ganz&nbsp;II</div>
+    Deep Redshift expertise, distilled. &copy; 2026 Max Ganz II. All testimonials shown are illustrative samples.
+  </div>
+</footer>
+
+<script>
+const papers = [
+  "The Query Planner Decoded",
+  "Sort Keys & Dist Styles Mastery",
+  "WLM & Queue Engineering",
+  "VACUUM, ANALYZE & the Truth About Bloat",
+  "Cutting the Redshift Bill in Half",
+  "High-Throughput Ingestion"
+];
+const PRICE = 297;
+
+const testimonials = [
+  {n:"Bugs Bunny",t:"CTO, Acme Corp",q:"Max's query-planner paper exposed a broadcast join that was throttling our nightly ETL. One rewrite and the job dropped from 4 hours to 18 minutes.",s:"Saved $140,000/yr"},
+  {n:"Woody Woodpecker",t:"Head of Engineering, Lumber Logistics Inc.",q:"His sort-key framework let us re-model our 9TB fact table correctly the first time. Dashboard latency fell 80% and we cancelled a planned cluster upgrade.",s:"Saved $210,000/yr"},
+  {n:"Daffy Duck",t:"Senior Data Engineer, Mallard Financial",q:"The WLM paper alone paid for itself in a week. The 9am query pile-up that haunted us for two years simply vanished.",s:"Saved $96,000/yr"},
+  {n:"Wile E. Coyote",t:"CEO, Roadrunner Freight",q:"We were about to buy three more RA3 nodes. Max's cost paper showed us where the spend was actually leaking. We bought zero.",s:"Saved $188,000/yr"},
+  {n:"Yosemite Sam",t:"Head of Engineering, Frontier Energy",q:"Brutally specific and field-tested. The VACUUM paper killed a bloat problem that was silently doubling our scan times.",s:"Saved $72,000/yr"},
+  {n:"Porky Pig",t:"CTO, Hamilton Retail Group",q:"The ingestion paper rebuilt our COPY pipeline. Loads that took 90 minutes now finish in 11, and the data stays perfectly sorted.",s:"Saved $130,000/yr"},
+  {n:"Tweety Bird",t:"Senior Engineer, Canary Health",q:"Concise but dense. I applied two redistribution tips and our claims-analytics suite got 6× faster overnight.",s:"Saved $54,000/yr"},
+  {n:"Elmer Fudd",t:"CEO, Wabbit Media",q:"Finally, Redshift documentation that tells the truth about interleaved sort keys. Saved us a month of trial and error.",s:"Saved $61,000/yr"},
+  {n:"Foghorn Leghorn",t:"Head of Engineering, Southern Grain Co.",q:"I say, that cost paper is a goldmine. We right-sized to RA3 and trimmed concurrency scaling waste in a single afternoon.",s:"Saved $205,000/yr"},
+  {n:"Marvin Martian",t:"Senior Data Engineer, Orbit Telecom",q:"The planner insights are unreal. We found a hidden DS_DIST step inflating a core report and eliminated it entirely.",s:"Saved $118,000/yr"},
+  {n:"Pepe Le Pew",t:"CTO, Provence Foods",q:"Elegant and precise. His WLM memory-slot math stopped our largest queries from spilling to disk during peak load.",s:"Saved $87,000/yr"},
+  {n:"Sylvester Cat",t:"Senior Engineer, Tweety Logistics",q:"Suffering succotash — the sort-key paper turned our worst-performing table into our fastest. Real, measurable wins.",s:"Saved $99,000/yr"},
+  {n:"Speedy Gonzales",t:"CTO, Rapido Payments",q:"Fastest ROI of any resource we've bought. The ingestion patterns cut our load window in half on day one.",s:"Saved $150,000/yr"},
+  {n:"Granny",t:"Head of Engineering, Heritage Insurance",q:"Thorough and trustworthy. The maintenance cadence he recommends has kept our 14TB cluster lean for two quarters straight.",s:"Saved $78,000/yr"},
+  {n:"Tasmanian Devil",t:"Senior Data Engineer, Whirlwind Gaming",q:"Chaos before, order after. The WLM rebuild absorbed our launch-day traffic spike without a single timeout.",s:"Saved $164,000/yr"},
+  {n:"Lola Bunny",t:"CEO, Slam Sports",q:"Genuinely top-tier. Two paragraphs of his planner paper saved us from a six-figure migration we didn't need.",s:"Saved $200,000/yr"},
+  {n:"Road Runner",t:"Head of Engineering, Meep Meep Express",q:"Beep beep — fast results. Our heaviest dashboard went from timing out to sub-second after one dist-style change.",s:"Saved $112,000/yr"},
+  {n:"Bosko",t:"CTO, Vintage Bank",q:"Clear, rigorous, original. The cost teardown found reserved-node savings our AWS rep never mentioned.",s:"Saved $176,000/yr"},
+  {n:"Gossamer",t:"Senior Engineer, Big Red Media",q:"Massive impact for the price. The bloat paper alone reclaimed terabytes and shaved hours off our maintenance window.",s:"Saved $93,000/yr"},
+  {n:"Henery Hawk",t:"CEO, Talon Manufacturing",q:"Small paper, enormous payoff. We applied the COPY file-count tuning and ingestion throughput jumped nearly 5×.",s:"Saved $134,000/yr"}
+];
+
+function initials(name){return name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();}
+
+// Render testimonials
+document.getElementById('tgrid').innerHTML = testimonials.map(t=>`
+  <div class="tcard">
+    <div class="stars">★★★★★</div>
+    <p class="quote">"${t.q}"</p>
+    <span class="saved">💰 ${t.s}</span>
+    <div class="who">
+      <div class="ava">${initials(t.n)}</div>
+      <div><div class="nm">${t.n}</div><div class="tt">${t.t}</div></div>
+    </div>
+  </div>`).join('');
+
+// Render checkout list
+const coList = document.getElementById('coList');
+coList.innerHTML = papers.map((p,i)=>`
+  <label class="co-item">
+    <span class="l"><input type="checkbox" data-i="${i}" onchange="updateTotal()"><span class="nm">${p}</span></span>
+    <span class="pr">$${PRICE}</span>
+  </label>`).join('');
+
+function updateTotal(){
+  const checked = document.querySelectorAll('#coList input:checked').length;
+  document.getElementById('coCount').textContent = checked;
+  document.getElementById('coTotal').textContent = '$' + (checked*PRICE).toLocaleString();
+}
+
+function mockCheckout(){
+  const checked = document.querySelectorAll('#coList input:checked').length;
+  if(checked===0){ alert('Select at least one white paper to continue.'); return; }
+  alert('✅ Demo checkout — no payment processed.\n\n'+checked+' white paper(s) • $'+(checked*PRICE).toLocaleString()+' total.\n\nThank you! (This is a mock button.)');
+}
+</script>
+</body>
+</html>
