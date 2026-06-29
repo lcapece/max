@@ -286,6 +286,34 @@
     font-family:var(--font);font-size:18px;text-align:center;letter-spacing:.3em;
   }
   .modal-input:focus{outline:none;border-color:var(--gold)}
+
+  /* ENTRY GATE */
+  body.locked{overflow:hidden;height:100vh}
+  body.locked nav,body.locked header.hero,body.locked section,body.locked footer{
+    filter:blur(9px);pointer-events:none;user-select:none;
+  }
+  .gate{
+    position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;
+    background:radial-gradient(1000px 600px at 70% -10%, #15233a 0%, transparent 55%),
+               radial-gradient(800px 500px at 0% 10%, #1a1230 0%, transparent 50%),
+               rgba(6,9,14,.96);
+    backdrop-filter:blur(4px);
+  }
+  body:not(.locked) .gate{display:none}
+  .gate-card{
+    width:100%;max-width:400px;text-align:center;
+    background:linear-gradient(180deg,var(--panel),var(--bg-2));
+    border:1px solid var(--line);border-radius:20px;padding:38px 32px;
+    box-shadow:0 40px 110px rgba(0,0,0,.65);
+  }
+  .gate-mark{
+    width:52px;height:52px;border-radius:13px;margin:0 auto 16px;
+    background:linear-gradient(135deg,var(--gold),#b8893a);
+    display:grid;place-items:center;color:#1a130a;font-weight:800;font-size:20px;
+    box-shadow:0 8px 24px rgba(232,196,104,.35);
+  }
+  .gate-card h2{font-size:24px;letter-spacing:-.02em}
+  .gate-desc{color:var(--muted);font-size:14.5px;margin-top:10px}
   .modal-err{color:#ff7a6e;font-size:13px;min-height:18px;margin-top:8px}
   .modal-actions{display:flex;gap:12px;justify-content:center;margin-top:18px}
 
@@ -304,7 +332,20 @@
   }
 </style>
 </head>
-<body>
+<body class="locked">
+
+<!-- ENTRY PIN GATE -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <div class="gate-mark">MG</div>
+    <h2>Private Preview</h2>
+    <p class="gate-desc">This page is protected. Enter the access PIN to preview it.</p>
+    <input type="password" id="gatePin" class="modal-input" inputmode="numeric" maxlength="8" placeholder="Enter PIN" autocomplete="off"
+           onkeydown="if(event.key==='Enter')submitGate()" />
+    <p class="modal-err" id="gateErr"></p>
+    <button class="btn btn-gold" style="width:100%;padding:15px;font-size:15px;margin-top:6px;" onclick="submitGate()">Unlock Preview &nbsp;→</button>
+  </div>
+</div>
 
 <nav>
   <div class="wrap">
@@ -632,10 +673,32 @@ function bundleCheckout(){
   alert('✅ Demo checkout — no payment processed.\n\nThe Complete Redshift Library\nAll 6 white papers + lifetime updates • $1,497 total.\n\nThank you! (This is a mock button.)');
 }
 
-/* ---- Administrative ---- */
-// PIN stored weakly base64-encoded (not real security): atob('MzY5MA==') === '3690'
+/* ---- Access PIN (weak base64, not real security): atob('MzY5MA==') === '3690' ---- */
 const ADMIN_PIN_B64 = 'MzY5MA==';
 const WIPE_FLAG = 'mg_admin_removed';
+const GATE_FLAG = 'mg_preview_unlocked';
+
+/* ---- Entry gate ---- */
+function unlockGate(){ document.body.classList.remove('locked'); }
+
+function submitGate(){
+  const entered = document.getElementById('gatePin').value.trim();
+  if(entered === atob(ADMIN_PIN_B64)){
+    try{ localStorage.setItem(GATE_FLAG, '1'); }catch(_){}
+    unlockGate();
+  } else {
+    document.getElementById('gateErr').textContent = 'Incorrect PIN.';
+    document.getElementById('gatePin').value = '';
+    document.getElementById('gatePin').focus();
+  }
+}
+
+// Unlock immediately if this browser already entered the PIN; otherwise focus the field.
+try{
+  if(localStorage.getItem(GATE_FLAG) === '1'){ unlockGate(); }
+  else { setTimeout(()=>{ var g=document.getElementById('gatePin'); if(g) g.focus(); }, 60); }
+}catch(_){ setTimeout(()=>{ var g=document.getElementById('gatePin'); if(g) g.focus(); }, 60); }
+
 
 function openAdmin(e){
   if(e) e.preventDefault();
